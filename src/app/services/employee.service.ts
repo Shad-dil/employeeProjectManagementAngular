@@ -20,4 +20,16 @@ export class EmployeeService {
       'https://projectapi.gerasim.in/api/EmployeeManagement/GetAllEmployees'
     );
   }
+  deleteEmployeeById(id: number | null): Observable<IApiResponce> {
+    return this.http.delete<IApiResponce>(
+      `https://projectapi.gerasim.in/api/EmployeeManagement/DeleteEmployee/${id}`
+    );
+  }
+
+  updateEmployee(employee: Employee): Observable<IApiResponce> {
+    return this.http.put<IApiResponce>(
+      `https://projectapi.gerasim.in/api/EmployeeManagement/UpdateEmployee/${employee.employeeId}`,
+      employee
+    );
+  }
 }

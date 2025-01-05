@@ -1,1 +1,153 @@
-<p>project works!</p>
+<div class="container mx-auto mt-4">
+  <div class="row px-10" *ngIf="currentView === 'list'">
+    <div class="col">
+      <div class="flex justify-end">
+        <button
+          class="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 mb-5"
+          (click)="currentView = 'addForm'"
+        >
+          Add Project
+        </button>
+      </div>
+      <table class="min-w-full bg-white">
+        <thead>
+          <tr>
+            <th class="py-2 px-4 border-b">Project ID</th>
+            <th class="py-2 px-4 border-b">Project Name</th>
+            <th class="py-2 px-4 border-b">Client Name</th>
+            <th class="py-2 px-4 border-b">Start Date</th>
+            <th class="py-2 px-4 border-b">Lead</th>
+            <th class="py-2 px-4 border-b">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Table rows go here -->
+          <tr>
+            <td>s</td>
+            <td>s</td>
+            <td>s</td>
+            <td>s</td>
+            <td>s</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row mt-4 px-10" *ngIf="currentView !== 'list'">
+    <div class="col">
+      <div class="flex justify-end">
+        <button
+          class="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 mb-4"
+          (click)="currentView = 'list'"
+        >
+          Close
+        </button>
+      </div>
+      <form
+        class="bg-white p-4 shadow-md rounded"
+        [formGroup]="projectForm"
+        (ngSubmit)="onSubmit()"
+      >
+        <div class="grid grid-cols-2 gap-4">
+          <div class="mb-4">
+            <label
+              class="block text-gray-700 text-sm font-bold mb-2"
+              for="projectName"
+              >Project Name</label
+            >
+            <input
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="projectName"
+              type="text"
+              placeholder="Project Name"
+              formControlName="projectName"
+            />
+          </div>
+          <div class="mb-4">
+            <label
+              class="block text-gray-700 text-sm font-bold mb-2"
+              for="clientName"
+              >Client Name</label
+            >
+            <input
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="clientName"
+              type="text"
+              placeholder="Client Name"
+              formControlName="clientName"
+            />
+          </div>
+          <div class="mb-4">
+            <label
+              class="block text-gray-700 text-sm font-bold mb-2"
+              for="startDate"
+              >Start Date</label
+            >
+            <input
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="startDate"
+              type="date"
+              formControlName="startDate"
+            />
+          </div>
+          <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="lead"
+              >Lead By Emp Id</label
+            >
+            <select
+              name="leadByEmpId"
+              id="lead"
+              formControlName="leadByEmpId"
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            >
+              <option value="">--Select Employee Name--</option>
+
+              <option
+                *ngFor="let employee of employeeList$ | async"
+                [value]="employee.employeeId"
+              >
+                {{ employee.employeeName }}
+              </option>
+            </select>
+          </div>
+          <div class="mb-4">
+            <label
+              class="block text-gray-700 text-sm font-bold mb-2"
+              for="contactPerson"
+              >Contact Person</label
+            >
+            <input
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="contactPerson"
+              type="text"
+              placeholder="Contact Person"
+              formControlName="contactPerson"
+            />
+          </div>
+          <div class="mb-4">
+            <label
+              class="block text-gray-700 text-sm font-bold mb-2"
+              for="contactNumber"
+              >Contact Number</label
+            >
+            <input
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="contactNumber"
+              type="text"
+              placeholder="Contact Number"
+              formControlName="contactNo"
+            />
+          </div>
+        </div>
+        <div class="flex items-center justify-between mt-4">
+          <button
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            type="submit"
+          >
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

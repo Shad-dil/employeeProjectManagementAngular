@@ -37,7 +37,7 @@
             </tr>
           </thead>
           <tbody>
-            @for (employee of employeeList; track $index) {
+            @for (employee of paginatedList; track $index) {
             <tr>
               <td class="py-2 px-4 border-b">{{ $index + 1 }}</td>
               <td class="py-2 px-4 border-b">{{ employee.employeeId }}</td>
@@ -66,6 +66,28 @@
             }
           </tbody>
         </table>
+      </div>
+      <div class="pagination flex justify-between items-center mt-4">
+        <button
+          (click)="changepage(currentPage - 1)"
+          [disabled]="currentPage === 1"
+          class="bg-gray-500 text-white px-4 py-2 rounded flex disabled:cursor-not-allowed"
+        >
+          <mat-icon>navigate_before</mat-icon>
+          Previous
+        </button>
+        <span
+          >Page {{ currentPage }} of
+          {{ totalItems / itemsPerPage | ceil }}</span
+        >
+        <button
+          (click)="changepage(currentPage + 1)"
+          [disabled]="currentPage * itemsPerPage >= totalItems"
+          class="bg-gray-500 text-white px-4 py-2 rounded flex disabled:cursor-not-allowed"
+        >
+          Next
+          <mat-icon>navigate_next</mat-icon>
+        </button>
       </div>
     </div>
   </div>

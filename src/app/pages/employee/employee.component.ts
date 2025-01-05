@@ -9,12 +9,13 @@ import {
   IChildDepartment,
   IParentDepartment,
 } from '../../model/Employee';
+import { CeilPipe } from '../../pipes/ceil.pipe';
 import { EmployeeService } from '../../services/employee.service';
 import { MasterService } from '../../services/master.service';
 
 @Component({
   selector: 'app-employee',
-  imports: [FormsModule, MatIconModule, CommonModule],
+  imports: [FormsModule, MatIconModule, CommonModule, CeilPipe],
   templateUrl: './employee.component.html',
   styleUrl: './employee.component.css',
 })
@@ -25,6 +26,11 @@ export class EmployeeComponent implements OnInit {
   parentDepartList: IParentDepartment[] = [];
   childDepartList: IChildDepartment[] = [];
   employeeList: Employee[] = [];
+  //Adding Pagination
+  paginatedList: Employee[] = [];
+  currentPage: number = 1;
+  itemsPerPage: number = 5;
+  totalItems: number = 0;
   //::TODO: Injecting services
   masterService = inject(MasterService);
   employeeService = inject(EmployeeService);
@@ -41,8 +47,24 @@ export class EmployeeComponent implements OnInit {
   getAllEmployees() {
     this.employeeService.getAllEmployees().subscribe((res) => {
       this.employeeList = res;
+      this.totalItems = res.length;
+      this.updatePage();
     });
   }
+
+  //Pagination Logic
+  updatePage(): void {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    this.paginatedList = this.employeeList.slice(
+      startIndex,
+      startIndex + this.itemsPerPage
+    );
+  }
+  changepage(page: number) {
+    this.currentPage = page;
+    this.updatePage();
+  }
+
   //Get Parent Dept List on Page Loading
   getparentDeptList() {
     this.masterService.getParentDepartment().subscribe((data: IApiResponce) => {
@@ -101,6 +123,7 @@ export class EmployeeComponent implements OnInit {
   //Edit Employee
   editEmployee(employee: Employee) {
     this.employeeObj = employee;
+    this.isFormShow.set(true);
   }
   updateEmployee() {
     this.employeeService.updateEmployee(this.employeeObj).subscribe({
